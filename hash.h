@@ -19,16 +19,20 @@ struct MyStringHash {
     // hash function entry point (i.e. this is h(k))
     HASH_INDEX_T operator()(const std::string& k) const
     {
-        // Add your code here
-
-
+        
     }
 
     // A likely helper function is to convert a-z,0-9 to an integral value 0-35
     HASH_INDEX_T letterDigitToNumber(char letter) const
     {
-        // Add code here or delete this helper function if you do not want it
+        if (letter >= 'a' && letter <= 'z'){
+          letter = tolower(letter);
+          return letter - 'a';
+        }
 
+        if (letter >= '0' && letter <= '9'){
+          return (letter - 'O') + 26;
+        }
     }
 
     // Code to generate the random R values
