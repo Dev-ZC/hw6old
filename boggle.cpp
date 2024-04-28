@@ -91,13 +91,15 @@ std::set<std::string> boggle(const std::set<std::string>& dict, const std::set<s
 	return result;
 }
 
+
+bool isValidPosition(int r, int c, int rows, int cols) {
+    return r >= 0 && r < rows && c >= 0 && c < cols;
+}
+
 bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>& prefix, const std::vector<std::vector<char> >& board, 
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
 	//add your solution here!
-	word = word + board[r][c]; // Add the current character to our word
-
-	// Base Case
 	if (r >= board.size() || c >= board.size()) {return false;} // Cant exceed board size
 	if (r <  0 || c < 0){return false;} // Can't have a negative/below zero position
 
@@ -105,9 +107,12 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 		return false;
 	}
 
+	word += board[r][c];
+
 	int newR = r+dr;
 	int newC = c+dc;
 
+	
 	bool newWord = boggleHelper(dict, prefix, board, word, result, newR, newC, dr, dc);
 
 	if (dict.find(word) == dict.end() || newWord) { 

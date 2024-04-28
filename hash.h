@@ -19,7 +19,38 @@ struct MyStringHash {
     // hash function entry point (i.e. this is h(k))
     HASH_INDEX_T operator()(const std::string& k) const
     {
-        
+        std::vector<long long> wordSum;
+        int strSize = k.size();
+        int max = 5;
+        int pos = 6 - (strSize % 6);
+        unsigned long long count = 0;
+
+        unsigned long long total = 0;
+        for (int i = 0; i < strSize; ++i) {
+            total += letterDigitToNumber(k[i]);
+        }
+
+        pos = pos % 6;
+        for (auto it = k.begin(); it != k.end(); ++it) {
+            count = 36 * count + letterDigitToNumber(*it);
+
+            pos++;
+            if (pos > max) {
+                wordSum.push_back(count);
+                count, pos = 0;
+            }
+        }
+
+        for (size_t i = wordSum.size(); i < max; ++i) {
+            wordSum.insert(wordSum.begin(), 0);
+        }
+        unsigned long long final = 0;
+
+        for (int i = 0; i < 5; i++) {
+            final += wordSum[i] * rValues[i];
+        }
+
+        return final;
     }
 
     // A likely helper function is to convert a-z,0-9 to an integral value 0-35
